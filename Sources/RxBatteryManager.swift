@@ -60,11 +60,17 @@ open class Battery {
                                                selector: #selector(batteryLevelChanged),
                                                name: UIDevice.batteryLevelDidChangeNotification,
                                                object: nil)
+        
+        lowerPowerModeChanged()
+        batteryStateChanged()
+        batteryLevelChanged()
     }
     
     /// Stop Monitor
     open func stop() {
         isEnabled = false
+        isLowLevel.onCompleted()
+        isCriticalLevel.onCompleted()
         NotificationCenter.default.removeObserver(self)
     }
     
