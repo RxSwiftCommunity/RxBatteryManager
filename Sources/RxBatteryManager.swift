@@ -39,29 +39,32 @@ open class Battery {
     }
     
     deinit {
-        stopMonitor()
+        stop()
     }
     
     /// Start Monitoring
-    open func startMonitor() {
+    open func start() {
+        isEnabled = true
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(lowerPowerModeChanged),
                                                name: .NSProcessInfoPowerStateDidChange,
                                                object: nil)
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(batteryLevelChanged),
-                                               name: UIDevice.batteryLevelDidChangeNotification,
+                                               selector: #selector(batteryStateChanged),
+                                               name: UIDevice.batteryStateDidChangeNotification,
                                                object: nil)
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(batteryStateChanged),
-                                               name: UIDevice.batteryStateDidChangeNotification,
+                                               selector: #selector(batteryLevelChanged),
+                                               name: UIDevice.batteryLevelDidChangeNotification,
                                                object: nil)
     }
     
     /// Stop Monitor
-    open func stopMonitor() {
+    open func stop() {
+        isEnabled = false
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -71,9 +74,19 @@ open class Battery {
         isLowPowerMode.accept(ProcessInfo.processInfo.isLowPowerModeEnabled)
     }
     
+    /// BatteryState Notify Changes
+    @objc
+    private func batteryStateChanged() {
+        state.accept(UIDevice.current.batteryState)
+    }
+    
     /// BatteryLevel Notify Changes
     @objc
     private func batteryLevelChanged() {
+        
+        // in some cases -1 comes
+        guard UIDevice.current.batteryLevel >= 0.0 else { return }
+        
         level.accept(UIDevice.current.batteryLevel)
         
         if level.value > 0.2 {
@@ -84,11 +97,5 @@ open class Battery {
         } else if level.value == 0.1 {
             isCriticalLevel.onNext(true)
         }
-    }
-    
-    /// BatteryState Notify Changes
-    @objc
-    private func batteryStateChanged() {
-        state.accept(UIDevice.current.batteryState)
     }
 }
