@@ -77,12 +77,14 @@ open class Battery {
     /// LowerPowerMode Notify Changes
     @objc
     private func lowerPowerModeChanged() {
+        guard isEnabled else { return }
         isLowPowerMode.accept(ProcessInfo.processInfo.isLowPowerModeEnabled)
     }
     
     /// BatteryState Notify Changes
     @objc
     private func batteryStateChanged() {
+        guard isEnabled else { return }
         state.accept(UIDevice.current.batteryState)
     }
     
@@ -91,7 +93,7 @@ open class Battery {
     private func batteryLevelChanged() {
         
         // in some cases -1 comes
-        guard UIDevice.current.batteryLevel >= 0.0 else { return }
+        guard UIDevice.current.batteryLevel >= 0.0, isEnabled else { return }
         
         level.accept(UIDevice.current.batteryLevel)
         
