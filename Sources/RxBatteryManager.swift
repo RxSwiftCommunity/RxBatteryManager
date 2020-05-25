@@ -9,7 +9,6 @@ import class UIKit.UIDevice
 import class UIKit.ProcessInfo
 import class UIKit.NotificationCenter
 import class RxRelay.BehaviorRelay
-import class RxSwift.PublishSubject
 
 open class Battery {
     
@@ -17,10 +16,10 @@ open class Battery {
     public static let monitor = Battery()
     
     /// Low Level
-    open var isLowLevel: PublishSubject<Bool> = PublishSubject<Bool>()
+    open var isLowLevel: BehaviorRelay<Bool> = .init(value: Bool())
     
     /// Critical Level
-    open var isCriticalLevel: PublishSubject<Bool> = PublishSubject<Bool>()
+    open var isCriticalLevel: BehaviorRelay<Bool> = .init(value: Bool())
     
     /// Battery Level
     open var level: BehaviorRelay<Float> = .init(value: UIDevice.current.batteryLevel)
@@ -35,6 +34,20 @@ open class Battery {
     open var isEnabled: Bool = false {
         didSet {
             UIDevice.current.isBatteryMonitoringEnabled = isEnabled
+        }
+    }
+    
+    /// Is Low Level Value
+    private var isLowLevelValue: Bool = false {
+        didSet {
+            isLowLevel.accept(isLowLevelValue)
+        }
+    }
+    
+    /// Is Critical Level Value
+    private var isCriticalLevelValue: Bool = false {
+        didSet {
+            isCriticalLevel.accept(isCriticalLevelValue)
         }
     }
     
@@ -61,17 +74,20 @@ open class Battery {
                                                name: UIDevice.batteryLevelDidChangeNotification,
                                                object: nil)
         
-        lowerPowerModeChanged()
-        batteryStateChanged()
-        batteryLevelChanged()
+        notifyCurrentStatus()
     }
     
     /// Stop Monitor
     open func stop() {
         isEnabled = false
-        isLowLevel.onCompleted()
-        isCriticalLevel.onCompleted()
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    /// Notify Currunt Battery Status
+    open func notifyCurrentStatus() {
+        lowerPowerModeChanged()
+        batteryStateChanged()
+        batteryLevelChanged()
     }
     
     /// LowerPowerMode Notify Changes
@@ -95,15 +111,15 @@ open class Battery {
         // in some cases -1 comes
         guard UIDevice.current.batteryLevel >= 0.0, isEnabled else { return }
         
-        level.accept(UIDevice.current.batteryLevel)
+        level.accept(UIDevice.current.batteryLevel * 100)
         
         if level.value > 0.2 {
-            isLowLevel.onNext(false)
-            isCriticalLevel.onNext(false)
+            isLowLevelValue = false
+            isCriticalLevelValue = false
         } else if level.value == 0.2 {
-            isLowLevel.onNext(true)
+            isLowLevelValue = false
         } else if level.value == 0.1 {
-            isCriticalLevel.onNext(true)
+            isCriticalLevelValue = false
         }
     }
 }
