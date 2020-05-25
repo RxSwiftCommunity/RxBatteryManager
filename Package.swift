@@ -5,6 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "RxBatteryManager",
+    platforms: [
+        .iOS(.v9),
+        .watchOS(.v2),
+    ],
     products: [
         .library(name: "RxBatteryManager", targets: ["RxBatteryManager"]),
     ],
