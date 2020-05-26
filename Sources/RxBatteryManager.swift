@@ -113,13 +113,13 @@ open class Battery {
         
         level.accept(UIDevice.current.batteryLevel * 100)
         
-        if level.value > 0.2 {
+        if level.value > 20 {
             isLowLevelValue = false
             isCriticalLevelValue = false
-        } else if level.value == 0.2 {
-            isLowLevelValue = false
-        } else if level.value == 0.1 {
-            isCriticalLevelValue = false
+        } else if level.value <= 20 {
+            isLowLevelValue = true
+        } else if level.value <= 10 {
+            isCriticalLevelValue = true
         }
     }
 }
