@@ -6,8 +6,8 @@
 //
 
 import class UIKit.UIDevice
-import class UIKit.ProcessInfo
 import class UIKit.NotificationCenter
+import class Foundation.ProcessInfo
 import class RxRelay.BehaviorRelay
 
 open class Battery {
