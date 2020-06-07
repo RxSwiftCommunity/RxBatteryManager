@@ -48,6 +48,17 @@ import RxBatteryManager
 let battery = Battery.monitor
 ```
 
+#### Init Library in AppDelegate
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+    // Monitoring Battery
+    Battery.monitor.start()
+	
+    return true
+}
+```
+
 #### *level* - float returns
 ```swift
 battery.level
