@@ -1,14 +1,5 @@
-# references:
-# * https://www.objc.io/issues/6-build-tools/travis-ci/
-# * https://github.com/supermarin/xcpretty#usage
+osx_image: xcode11.2
 
-osx_image: xcode11
 language: objective-c
- cache: cocoapods
- podfile: Example/Podfile
- before_install:
- - gem install cocoapods
- - pod install --repo-update --project-directory=Example
-script:
-- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/RxBatteryManager.xcworkspace -scheme RxBatteryManager-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint
+
+script: pod lib lint
