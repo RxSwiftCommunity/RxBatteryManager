@@ -1,5 +1,6 @@
 # A Reactive BatteryManager in Swift
 
+[![Build Status](https://travis-ci.com/mustafagunes/RxBatteryManager.svg?branch=master)](https://github.com/mustafagunes/RxBatteryManager)
 [![Swift](https://img.shields.io/badge/swift-5.1-orange.svg)](https://github.com/mustafagunes/RxBatteryManager)
 [![RxSwift](https://img.shields.io/badge/RxSwift-5.1.1-red.svg)](https://github.com/ReactiveX/RxSwift)
 [![SPM Compatible](https://img.shields.io/badge/SPM-1.0.3-brightgreen.svg)](https://swift.org/package-manager)
@@ -54,7 +55,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
         
     // Monitoring Battery
     Battery.monitor.start()
-	
+    
     return true
 }
 ```
@@ -79,7 +80,7 @@ battery.state
         case .unknown:
             print("unknown")
         case .unplugged:
-			print("unplugged")
+            print("unplugged")
         case .charging:
             print("charging")
         case .full:
