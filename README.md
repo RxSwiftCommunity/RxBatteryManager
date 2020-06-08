@@ -127,5 +127,5 @@ battery.isCriticalLevel
 
 ## 👮‍♂️License
 
-RxBatteryManager is available under the MIT license. See the LICENSE file for more info.
+RxBatteryManager is available under the [MIT](https://github.com/mustafagunes/RxBatteryManager/blob/master/LICENSE) license. See the LICENSE file for more info.
 Copyright (c) Mustafa GUNES
