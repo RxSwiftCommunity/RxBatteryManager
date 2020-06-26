@@ -3,6 +3,7 @@
 //  RxBatteryManager
 //
 //  Created by Mustafa GUNES on 25.05.2020.
+//  Copyright © 2019 RxSwiftCommunity. All rights reserved.
 //
 
 import class UIKit.UIDevice
