@@ -3,7 +3,7 @@
 //  Example
 //
 //  Created by Mustafa GUNES on 25.05.2020.
-//  Copyright © 2020 Mustafa GUNES. All rights reserved.
+//  Copyright © 2019 RxSwiftCommunity. All rights reserved.
 //
 
 import UIKit
