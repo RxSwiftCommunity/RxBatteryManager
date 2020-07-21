@@ -3,7 +3,7 @@
 //  Example
 //
 //  Created by Mustafa GUNES on 25.05.2020.
-//  Copyright © 2020 Mustafa GUNES. All rights reserved.
+//  Copyright © 2019 RxSwiftCommunity. All rights reserved.
 //
 
 import UIKit
@@ -66,15 +66,16 @@ class ViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         battery.isLowLevel
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] isLowLevel in
+        .distinctUntilChanged()
+        .subscribe(onNext: { [weak self] isLowLevel in
             guard let self = self else { return }
             self.isLowBatteryLabel.text = "\(isLowLevel)"
         }).disposed(by: disposeBag)
         
+        
         battery.isCriticalLevel
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] isCriticalLevel in
+        .distinctUntilChanged()
+        .subscribe(onNext: { [weak self] isCriticalLevel in
             guard let self = self else { return }
             self.isCriticalBatteryLabel.text = "\(isCriticalLevel)"
         }).disposed(by: disposeBag)
