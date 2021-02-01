@@ -60,20 +60,26 @@ open class Battery {
     open func start() {
         isEnabled = true
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(lowerPowerModeChanged),
-                                               name: .NSProcessInfoPowerStateDidChange,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(lowerPowerModeChanged),
+            name: .NSProcessInfoPowerStateDidChange,
+            object: nil
+        )
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(batteryStateChanged),
-                                               name: UIDevice.batteryStateDidChangeNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(batteryStateChanged),
+            name: UIDevice.batteryStateDidChangeNotification,
+            object: nil
+        )
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(batteryLevelChanged),
-                                               name: UIDevice.batteryLevelDidChangeNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(batteryLevelChanged),
+            name: UIDevice.batteryLevelDidChangeNotification,
+            object: nil
+        )
         
         notifyCurrentStatus()
     }
@@ -112,7 +118,8 @@ open class Battery {
         // in some cases -1 comes
         guard UIDevice.current.batteryLevel >= 0.0, isEnabled else { return }
         
-        level.accept(UIDevice.current.batteryLevel * 100)
+        let batteryLevel = UIDevice.current.batteryLevel * 100
+        level.accept(batteryLevel)
         
         // isLowLevel
         if level.value > 20 {
